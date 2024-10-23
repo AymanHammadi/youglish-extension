@@ -1,0 +1,25 @@
+{
+  "name": "YouGlish Extension",
+  "version": "1.0",
+  "description": "Search YouGlish with highlighted word, or search for a word on YouGlish",
+  "manifest_version": 3,
+  "permissions": ["scripting", "activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "open_youglish": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Search YouGlish with highlighted word"
+    }
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "*://*/*",
+    "https://youglish.com/*"
+  ]
+}

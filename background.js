@@ -1,11 +1,9 @@
-// background.js
-
 // Function to get the highlighted text
 function getSelectionText() {
   return window.getSelection().toString();
 }
 
-// Listen for the keyboard shortcut Ctrl+Shift+Y
+// Listen for the keyboard shortcut
 chrome.commands.onCommand.addListener(function (command) {
   if (command === "open_youglish") {
     // Get the active tab
@@ -24,7 +22,7 @@ chrome.commands.onCommand.addListener(function (command) {
             return;
           }
 
-          const text = selection[0]?.result; // Using optional chaining for safety
+          const text = selection[0]?.result;
 
           if (text) {
             // Open the popup and pass the selected text as a query parameter

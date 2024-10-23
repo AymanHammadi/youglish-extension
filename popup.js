@@ -1,5 +1,3 @@
-// popup.js
-
 document.addEventListener("DOMContentLoaded", function () {
   // Load the YouGlish widget without an initial search
   loadYouglishWidget();

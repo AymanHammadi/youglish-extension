@@ -12,7 +12,7 @@ This Chrome extension allows users to utilize the Youglish API. With this extens
 ## Usage
 
 1. Highlight a word in your browser.
-2. Press `Ctrl+Shift+Y` (or your customized shortcut).
+2. Press `Ctrl+Shift+Y`.
 3. A popup will appear with Youglish search results.
 4. The video will play automatically.
 

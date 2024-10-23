@@ -1,3 +1,9 @@
+/*
+ * This is a local copy of the YouGlish widget (widget.js).
+ * It is included here to avoid issues with the Content Security Policy
+ * that prevents loading scripts from external sources.
+ */
+
 var YG = (function (D, F) {
   var e = {},
     x = {},

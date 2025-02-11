@@ -1,27 +1,18 @@
-# Youglish Chrome Extension
+# YouGlish Chrome Extension
 
-This Chrome extension allows users to utilize the Youglish API. With this extension, users can highlight a word and then click the shortcut (default is `Ctrl+Shift+Y`). The extension will display a popup with Youglish search results and automatically play the video.
+Search words on YouGlish directly from your browser.
 
 ## Features
 
-- Highlight a word and search Youglish with a shortcut.
-- Default shortcut: `Ctrl+Shift+Y` (can be customized).
-- Popup displays Youglish search results.
-- Automatic video playback.
+- Highlight a word, press `Ctrl+Shift+S` (or customized shortcut) to open YouGlish in a popup.
+- Automatically searches and plays the video.
 
 ## Usage
 
-1. Highlight a word in your browser.
-2. Press `Ctrl+Shift+Y`.
-3. A popup will appear with Youglish search results.
-4. The video will play automatically.
+1. Highlight a word.
+2. Press `Ctrl+Shift+S`.
 
 ## Customization
 
-To change the shortcut:
-1. Open Chrome and navigate to `chrome://extensions/shortcuts`.
-2. Find the Youglish extension and set your preferred shortcut.
+Change the shortcut at `chrome://extensions/shortcuts`.
 
-## Contributing
-
-Feel free to submit issues or pull requests. Contributions are welcome!

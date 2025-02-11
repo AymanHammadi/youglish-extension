@@ -1,0 +1,41 @@
+body {
+  width: 400px;
+  height: 400px;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  text-align: center;
+  display: none;
+}
+
+.message:not(:empty) {
+  display: block;
+}
+
+#youglish-container {
+  height: 100vh;
+  width: 100%;
+}
+
+#widget-1 {
+  width: 100%;
+  height: 100%;
+}
+
+.youglish-widget {
+  width: 100%;
+  height: 100%;
+}
+

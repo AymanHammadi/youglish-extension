@@ -1,70 +1,77 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Load the YouGlish widget without an initial search
-  loadYouglishWidget();
-});
+// Initialize state
+let player = null;
+let currentQuery = "hello";
 
-// Function to load the YouGlish widget
-function loadYouglishWidget() {
-  var tag = document.createElement("script");
-  tag.src = "widget.js"; // Load the widget script
-  var firstScriptTag = document.getElementsByTagName("script")[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+/**
+ * YouGlish Widget configuration
+ */
+const WIDGET_CONFIG = {
+  width: 420,
+  height: 600,
+  components: 8415,
+  autoStart: 1,
+  closeDelay: 2000,
+};
 
-  tag.onload = function () {
-    // Initialize the widget
-    window.widget = new YG.Widget("widget-1", {
-      width: 640,
-      components: 9,
+/**
+ * Initializes and configures the YouGlish widget
+ * @param {string} searchQuery - The text to search for
+ * @returns {YG.Widget|null} - The widget instance or null if initialization fails
+ */
+function initializeWidget(searchQuery) {
+  try {
+    const widget = new YG.Widget("yg-widget-0", {
+      ...WIDGET_CONFIG,
       events: {
-        onFetchDone: onFetchDone,
-        onVideoChange: onVideoChange,
-        onCaptionConsumed: onCaptionConsumed,
+        onError: (e) => handleError(e),
       },
     });
 
-    // Get the query text from the URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const queryText = urlParams.get("query") || ""; // Default to an empty string
-
-    // Set the search bar value if there is a query
-    if (queryText) {
-      document.getElementById("search-bar").value = queryText;
-      widget.fetch(queryText, "english"); // Optionally, fetch results immediately if desired
+    if (searchQuery) {
+      widget.fetch(searchQuery, "english");
     }
 
-    // Set up form submission
-    document
-      .getElementById("search-form")
-      .addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent the form from submitting normally
-        const query = document.getElementById("search-bar").value;
-        if (query) {
-          widget.fetch(query, "english"); // Fetch results for the user's query
-        }
-      });
-
-    // Set up navigation buttons
-    document.getElementById("prev-btn").addEventListener("click", function () {
-      widget.previous(); // Navigate to the previous video
-    });
-
-    document.getElementById("next-btn").addEventListener("click", function () {
-      widget.next(); // Navigate to the next video
-    });
-  };
-}
-
-// Event handlers for the YouGlish widget
-function onFetchDone(event) {
-  if (event.totalResult === 0) {
-    alert("No result found");
+    return widget;
+  } catch (err) {
+    console.error("Failed to initialize widget:", err);
+    return null;
   }
 }
 
-function onVideoChange(event) {
-  console.log("Video changed to track number:", event.trackNumber);
+/**
+ * Handles the completion of a search request
+ * @param {Object} event - The fetch done event
+ */
+function handleFetchDone(event) {
+  if (event.totalResult === 0) {
+    showMessage("No results found");
+    setTimeout(() => window.close(), WIDGET_CONFIG.closeDelay);
+  }
 }
 
-function onCaptionConsumed(event) {
-  console.log("Caption consumed for track number:", event.trackNumber);
+/**
+ * Handles widget errors
+ * @param {Object} error - The error event
+ */
+function handleError(error) {
+  console.error("Widget error:", error);
+  showMessage("An error occurred while searching");
 }
+
+/**
+ * Displays a message to the user
+ * @param {string} message - The message to display
+ */
+function showMessage(message) {
+  const messageElement = document.getElementById("message");
+  if (messageElement) {
+    messageElement.textContent = message;
+  }
+}
+
+// Initialize widget when DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchQuery = urlParams.get("query");
+  initializeWidget(searchQuery);
+});

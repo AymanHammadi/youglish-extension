@@ -1,42 +1,63 @@
-// Function to get the highlighted text
+/**
+ * Constants for configuration
+ */
+const CONFIG = {
+  WINDOW_WIDTH: 420,
+  WINDOW_HEIGHT: 600,
+  COMMAND_NAME: "open_youglish",
+};
+
+/**
+ * Extracts the currently selected text from the active page
+ * @returns {string} The selected text
+ */
 function getSelectionText() {
-  return window.getSelection().toString();
+  return window.getSelection().toString().trim();
 }
 
-// Listen for the keyboard shortcut
-chrome.commands.onCommand.addListener(function (command) {
-  if (command === "open_youglish") {
-    // Get the active tab
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      const activeTab = tabs[0];
+/**
+ * Opens a YouGlish popup window for the selected text
+ * @param {string} text - The text to search for
+ */
+function openYouGlishPopup(text) {
+  if (!text) return;
 
-      // Execute a script in the active tab to get the selected text
-      chrome.scripting.executeScript(
-        {
-          target: { tabId: activeTab.id },
-          func: getSelectionText,
-        },
-        function (selection) {
-          if (chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError.message);
-            return;
-          }
+  chrome.windows
+    .create({
+      url: `popup.html?query=${encodeURIComponent(text)}`,
+      type: "popup",
+      width: CONFIG.WINDOW_WIDTH,
+      height: CONFIG.WINDOW_HEIGHT,
+    })
+    .catch((err) => console.error("Failed to create popup:", err));
+}
 
-          const text = selection[0]?.result;
+/**
+ * Handles the keyboard shortcut command
+ */
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command !== CONFIG.COMMAND_NAME) return;
 
-          if (text) {
-            // Open the popup and pass the selected text as a query parameter
-            chrome.windows.create({
-              url: chrome.runtime.getURL(
-                `popup.html?query=${encodeURIComponent(text)}`
-              ),
-              type: "popup",
-              width: 700,
-              height: 500,
-            });
-          }
-        }
-      );
+  try {
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
     });
+
+    const [selection] = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: getSelectionText,
+    });
+
+    openYouGlishPopup(selection?.result);
+  } catch (err) {
+    console.error("Error executing script:", err);
   }
+});
+
+// Installation listener
+chrome.runtime.onInstalled.addListener(() => {
+  console.info(
+    "YouGlish Extension installed. Use Ctrl+Shift+S to search highlighted text."
+  );
 });

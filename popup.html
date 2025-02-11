@@ -1,31 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>YouGlish Widget</title>
-    <style>
-      body {
-        width: 640px;
-        height: 360px;
-        margin: 0;
-        padding: 10px;
-      }
-      #widget-1 {
-        width: 100%;
-        height: 100%;
-      }
-    </style>
+    <meta charset="UTF-8">
+    <title>YouGlish Results</title>
+    <link href="popup.css" rel="stylesheet">
   </head>
   <body>
-    <form id="search-form">
-      <input type="text" id="search-bar" placeholder="Search YouGlish..." />
-      <button type="submit" id="search-btn">Search</button>
-      <button type="button" id="prev-btn">Previous</button>
-      <button type="button" id="next-btn">Next</button>
-    </form>
-    <div id="widget-1"></div>
-    
-    <script src="widget.js"></script>
+    <div id="message" class="message"></div>
+    <div id="youglish-container">
+      <a id="yg-widget-0" 
+         class="youglish-widget" 
+         data-zones="all,us,uk,aus" 
+         data-components="8415" 
+         data-bkg-color="theme_light" 
+         data-title="(%25i%25%20out%20of%20%25total%25)%3A" 
+         rel="nofollow" 
+         href="https://youglish.com">Visit YouGlish.com</a>
+    </div>
     <script src="popup.js"></script>
-
+    <script src="widget.js"></script>
   </body>
 </html>
